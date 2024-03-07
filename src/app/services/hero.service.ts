@@ -17,34 +17,34 @@ export class HeroService {
   ) { }
 
   getHeroes(): Observable<Hero[]> {
-    const heroes = of(HEROES);
+    return this.http.get<Hero[]>(this.heroesUrl);
+
     this.messageService.clear();
     this.messageService.add("HeroService: fetched heroes");
     return heroes;
   }
 
   getHero(id: number): Observable<any> {
-    let response: any = {
+    const hero = HEROES.find(h => h.id === id);
+    return of(hero ? {
+      success: 1,
+      message: "Hero successfully fetched",
+      data: { hero }
+    } : {
       success: 0,
-      message: "",
+      message: "Hero not found",
       data: {}
-    }
+    });
 
-    let hero = HEROES.find(hero => hero.id === id);
-
-    if (hero) {
-      response.data.hero =  hero;
-      response.success = 1;
-      response.message = "Hero successfully fetched";
-    } else {
-      response.message = "Hero not found";
-    }
-
-
-    return of(response);
   }
 
   private log(message: string) {
     this.messageService.add(`HeroService: ${message}`);
+
+
+
+
+
+
   }
 }
