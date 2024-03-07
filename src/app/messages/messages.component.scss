@@ -1,0 +1,19 @@
+.messages-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    background: green;
+    padding: 5px 10px;
+}
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+.messages-container, button {
+    color: white;
+}
