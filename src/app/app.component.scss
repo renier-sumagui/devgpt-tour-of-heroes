@@ -17,6 +17,16 @@ body, input[type="text"], button {
     color: #333;
     font-family: Cambria, Georgia, serif;
 }
+
+::ng-deep {
+    body { margin: 0 !important };
+    main {
+        border: 5px solid red;
+        // min-height: 100vh;
+        min-height: 100svh;
+    }
+}
+
 button {
     background-color: #eee;
     border: none;
