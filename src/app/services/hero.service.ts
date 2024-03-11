@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Hero } from '../hero';
-import { HEROES } from '../mock-heroes';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+
 import { MessageService } from "app/services/message.service";
 import { HttpClient } from '@angular/common/http';
 
@@ -17,31 +16,22 @@ export class HeroService {
   ) { }
 
   getHeroes(): Observable<Hero[]> {
-    const heroes = of(HEROES);
+    return this.http.get<Hero[]>(this.heroesUrl);
+
     this.messageService.clear();
     this.messageService.add("HeroService: fetched heroes");
     return heroes;
   }
 
   getHero(id: number): Observable<any> {
-    let response: any = {
-      success: 0,
-      message: "",
-      data: {}
+    const hero = HEROES.find(h => h.id === id);
+    if (!hero) {
+      this.log('Hero not found');
+      return of({ success: 0, message: 'Hero not found', data: {} });
     }
+    this.log('Hero successfully fetched');
+    return of({ success: 1, message: 'Hero successfully fetched', data: { hero } });
 
-    let hero = HEROES.find(hero => hero.id === id);
-
-    if (hero) {
-      response.data.hero =  hero;
-      response.success = 1;
-      response.message = "Hero successfully fetched";
-    } else {
-      response.message = "Hero not found";
-    }
-
-
-    return of(response);
   }
 
   private log(message: string) {
